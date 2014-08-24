@@ -33,6 +33,7 @@ function install(array $data)
     $patchesTable = "CREATE TABLE `" . $data['db_db'] . "`.`patches` (
                 `id` INT NOT NULL AUTO_INCREMENT,
                 `url` VARCHAR(1024) NOT NULL,
+                `file` VARCHAR(128) NOT NULL,
                 `priority` INT(1) NOT NULL,
                 PRIMARY KEY (`id`));
               ";

@@ -11,9 +11,11 @@ if (!$_SESSION['lin'] == "1") {
 
 if (isset($_POST['furl'])) {
     $db = new DB($db_host, $db_uname, $db_pw, $db_db);
+    $pathInfo = basename($_POST['furl']);
     $data = array(
             'url' => $_POST['furl'],
             'priority' => $_POST['prio'],
+            'file' => $pathInfo
             );
     $insert = $db->insert_safe('patches', $data);
     if ($insert) {

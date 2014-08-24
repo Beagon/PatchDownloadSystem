@@ -31,12 +31,14 @@ function install(array $data)
 {
     $db = new DB($data['db_host'], $data['db_uname'], $data['db_pw'], $data['db_db']);
     $patchesTable = "CREATE TABLE `" . $data['db_db'] . "`.`patches` (
-                `id` INT NOT NULL,
+                `id` INT NOT NULL AUTO_INCREMENT,
                 `url` VARCHAR(1024) NOT NULL,
-                `priority` INT NOT NULL,
+                `priority` INT(1) NOT NULL,
                 PRIMARY KEY (`id`));
               ";
-    $db->dropTable('patches');
+    if ($db->table_exists('patches')) {
+        $db->dropTable('patches');
+    }
     if ($db->query($patchesTable)) {
         echo "Patches table created. <br />";
     }

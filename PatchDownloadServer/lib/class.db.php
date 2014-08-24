@@ -496,9 +496,9 @@ class DB
         $values = array();
         foreach( $variables as $field => $value )
         {
-            $fields[] = $this->filter( $field );
+            $fields[] = "`" . $this->filter( $field ) . "`";
             //Check for frequently used mysql commands and prevent encapsulation of them
-            $values[] = $value; 
+            $values[] = "'" . $value . "'"; 
         }
         $fields = ' (' . implode(', ', $fields) . ')';
         $values = '('. implode(', ', $values) .')';

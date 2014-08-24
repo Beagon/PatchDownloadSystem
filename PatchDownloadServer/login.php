@@ -7,7 +7,7 @@ if (isset($_POST['username'])) {
     require_once('config.php');
     if ($a_uname == $_POST['username'] && $a_pw == hash("sha256", $_POST['password'])) {
         $_SESSION['lin'] = "1";
-        echo "logged in <meta http-equiv='refresh' content='3; url=add.php' />";
+        echo "You are logged in. Redirecting... <meta http-equiv='refresh' content='3; url=add.php' />";
     } else {
         echo "Username or password incorrect.";
     }

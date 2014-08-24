@@ -1,6 +1,6 @@
 <?php
 //This is just an ugly mess thrown together for this principle of concept.
-
+require_once '../lib/class.db.php';
 
 if (strlen(file_get_contents("../config.php")) > 0) {
     die('You have already have ran the installation, if you would like to rerun it please delete the contents of config.php');
@@ -29,18 +29,18 @@ if (!isset($_GET['o'])) {
 
 function install(array $data)
 {
-    require_once '../lib/class.db.php';
-    $database = new DB($data['db_host'], $data['db_uname'], $data['db_pw'], $data['db_db']);
+    $db = new DB($data['db_host'], $data['db_uname'], $data['db_pw'], $data['db_db']);
     $patchesTable = "CREATE TABLE `" . $data['db_db'] . "`.`patches` (
                 `id` INT NOT NULL,
                 `url` VARCHAR(1024) NOT NULL,
                 `priority` INT NOT NULL,
                 PRIMARY KEY (`id`));
               ";
-    $database->dropTable('patches');
-    if ($database->query($patchesTable)) {
+    $db->dropTable('patches');
+    if ($db->query($patchesTable)) {
         echo "Patches table created. <br />";
     }
+    $db->__destruct();
 
     $configFile = fopen("../config.php", "w");
     if (!$configFile) {
@@ -70,11 +70,11 @@ function showForm()
           </tr>
           <tr>
             <td>Admin Username:</td>
-            <td><input type="text" name="a_uname" value="admin"></td>
+            <td><input type="text" name="a_uname" value="admin" required></td>
           </tr>
           <tr>
             <td>Admin Password:</td>
-            <td><input type="password" name="a_pw" value="admin"></td>
+            <td><input type="password" name="a_pw" value="admin" required></td>
           </tr>
           <tr>
             <th>Database:</th>
@@ -82,23 +82,23 @@ function showForm()
           </tr>
           <tr>
             <td>MySQL Hostname:</td>
-            <td><input type="text" name="db_host" value="localhost"></td>
+            <td><input type="text" name="db_host" value="localhost" required></td>
           </tr>
           <tr>
             <td>MySQL Port:</td>
-            <td><input type="text" value="3306" name="db_port"></td>
+            <td><input type="text" value="3306" name="db_port" required></td>
           </tr>
           <tr>
             <td>MySQL Username:</td>
-            <td><input type="text" name="db_uname"></td>
+            <td><input type="text" name="db_uname" required></td>
           </tr>
           <tr>
             <td>MySQL Password:</td>
-            <td><input type="password" name="db_pw"></td>
+            <td><input type="password" name="db_pw" required></td>
           </tr>
           <tr>
             <td>MySQL Database:</td>
-            <td><input type="text" name="db_db"></td>
+            <td><input type="text" name="db_db" required></td>
           </tr>
           <tr>
             <td>&nbsp;</td>
